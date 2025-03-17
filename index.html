@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bluetooth Enheter</title>
+</head>
+<body>
+    <h1>Bluetooth Enheter</h1>
+    <button onclick="scanBluetooth()">Sök Bluetooth-enheter</button>
+    <ul id="deviceList"></ul>
+
+    <script>
+        async function scanBluetooth() {
+            try {
+                const device = await navigator.bluetooth.requestDevice({
+                    acceptAllDevices: true,
+                    optionalServices: ['battery_service']
+                });
+
+                // Visa den hittade enheten
+                const listItem = document.createElement('li');
+                listItem.textContent = `Enhet: ${device.name} | ID: ${device.id}`;
+                document.getElementById('deviceList').appendChild(listItem);
+            } catch (error) {
+                console.error("Fel vid anslutning till Bluetooth-enhet: ", error);
+            }
+        }
+    </script>
+</body>
+</html>
